@@ -4,7 +4,6 @@ const Hapi = require('hapi');
 const shortlink = require('./shortlink_modules');
 const admin = require('./admin_modules');
 const boom = require('boom');
-const location = require('location-href')
 
 const host = 'localhost';
 const port = 3000;
@@ -72,7 +71,8 @@ server.route({
   method: 'GET',
   path: '/api/getstatlinks',
   handler: async (request, h) => {
-
+    let statlink = shortlink.get_stat_links();
+    return statlink;
   }
 });
 

@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "hapi": "^17.5.1"
+  },
+  "dependencies": {
+    "mysql": "^2.15.0"
   }
 }

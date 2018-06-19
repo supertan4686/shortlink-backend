@@ -12,6 +12,18 @@ exports.get_links = async function (shortlink) {
   return reallink;
 }
 
+exports.get_stat_links = async function (shortlink) {
+  let query = "SELECT * FROM shortlink_data;";
+  let statlink = await new Promise((resolve, reject) => db.query(query, function(err, result) {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(result);
+    }
+  }));
+  return statlink;
+}
+
 exports.add_links = async function (shortlink, reallink) {
   let query = "INSERT INTO shortlink_data (shortlink, reallink) VALUES ('"+ shortlink +"', '"+ reallink +"')";
   let check = await new Promise((resolve, reject) => db.query(query, function(err, result) {

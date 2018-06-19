@@ -4,7 +4,7 @@ var conn = mysql.createConnection({
     host : "localhost",
     user : "root",
     password : "",
-    database : "customer_pea"
+    database : "shortlink_db"
   });
 conn.connect(function (err) {
   if (err) throw err;

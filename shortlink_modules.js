@@ -1,20 +1,20 @@
 var db = require('./database');
 
-exports.get_links = async function (shortlink, callback) {
-  let query = "SELECT result FROM shortlink-data WHERE shortlink ='" + shortlink + "';";
-  let result = await new Promise((resolve, reject) => db.query(query, function(err, result, fields) {
+exports.get_links = async function (shortlink) {
+  let query = "SELECT reallink FROM shortlink_data WHERE shortlink = '" + shortlink + "';";
+  let reallink = await new Promise((resolve, reject) => db.query(query, function(err, result) {
     if (err) {
       reject(err);
     } else {
       resolve(result);
     }
   }));
-  return result;
+  return reallink;
 }
 
 exports.add_links = async function (shortlink, reallink) {
   let query = "INSERT INTO shortlink_data (shortlink, reallink) VALUES ('"+ shortlink +"', '"+ reallink +"')";
-  let check = await new Promise((resolve, reject) => db.query(query, function(err, result, fields) {
+  let check = await new Promise((resolve, reject) => db.query(query, function(err, result) {
     if (err) {
       reject(err);
     } else {
@@ -25,8 +25,8 @@ exports.add_links = async function (shortlink, reallink) {
 }
 
 exports.add_amount_links = async function (shortlink) {
-  let query = "UPDATE shortlink_data SET amount = 1' WHERE shortlink = "+ shortlink + ";";
-  let check = await new Promise((resolve, reject) => db.query(query, function(err, result, fields) {
+  let query = "UPDATE shortlink_data SET amount = amount + 1 WHERE shortlink = '" + shortlink + "';";
+  let check = await new Promise((resolve, reject) => db.query(query, function(err, result) {
     if (err) {
       reject(err);
     } else {
@@ -37,7 +37,7 @@ exports.add_amount_links = async function (shortlink) {
   return check;
 }
 
-exports.gen_short_links = function (){
+exports.gen_short_links = function () {
   let result = "";
   let text = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

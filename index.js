@@ -1,53 +1,56 @@
-// 'use strict';
+'use strict';
 
 const Hapi = require('hapi');
-const shortlink = require('./shortlink');
+const shortlink = require('./shortlink_modules');
+const boom = require('boom');
 
-const url = 'localhost';
+const host = 'localhost';
 const port = 3000;
+const url = host + ":" + port; 
 
 const server = Hapi.server({
     port: port,
-    host: url
+    host: host
 });
-
 
 server.route({
   method: 'POST',
-  path: '/login',
+  path: '/api/login',
   handler: (request, h) => {
-    return 'Login API';
+    return h.response('hello login');
   }
 });
 
-// server.route({
-//   method: 'GET',
-//   path: '/{link}',
-//   handler: async (request, h) => {
-//     let short_link = request.params.link;
-//     let checkaddamount = await shortlink.add_amount_links(short_link);
-//     if(checkaddamount == 1){
-//       let reallink = shortlink.get_links(short_link);
-//       return reallink;
-//     } else {
-//       return checkaddamount;
-//     }
-    
-//   }
-// });
+server.route({
+  method: 'GET',
+  path: '/{shortlink}',
+  handler: async (request, h) => {
+    try{
+      let short_link = await encodeURIComponent(request.params.shortlink);
+      let checkaddamount = await shortlink.add_amount_links(short_link);
+      if(checkaddamount == 1){
+        let reallink = await shortlink.get_links(short_link);
+        return h.response(reallink[0]);
+      } else {
+        return boom.notFound('Link Not Found');
+      }
+    } catch (err){
+      console.log(err);
+    }
+  }
+});
 
 server.route({
   method: 'POST',
-  path: '/add',
+  path: '/api/add',
   handler: async (request, h) => {
     let reallink = request.payload.link;
     let shortlink_gen = shortlink.gen_short_links();
-    let checkaddlink = await shortlink.add_links(shortlink_gen, reallink);
-    if(checkaddlink == 1){
-      return url + ":" + port + '/' + shortlink_gen;
-    } else{
-      return checkaddlink;
-    }
+    await shortlink.add_links(shortlink_gen, reallink);
+    let json = {
+      shortlink : url + '/' + shortlink_gen
+    };
+    return h.response(json);
   }
 });
 

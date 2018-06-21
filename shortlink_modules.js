@@ -13,7 +13,7 @@ exports.get_links = async function (shortlink) {
 }
 
 exports.get_stat_links = async function (shortlink) {
-  let query = "SELECT * FROM shortlink_data;";
+  let query = "SELECT id, CONCAT('http://localhost:8080/', shortlink) AS shortlink, reallink, amount FROM shortlink_data;";
   let statlink = await new Promise((resolve, reject) => db.query(query, function(err, result) {
     if (err) {
       reject(err);

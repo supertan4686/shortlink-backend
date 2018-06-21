@@ -18,6 +18,9 @@ const server = Hapi.server({
 server.route({
   method: 'GET',
   path: '/{shortlink}',
+  options: {
+    cors : true
+  },
   handler: async (request, h) => {
     let short_link = await encodeURIComponent(request.params.shortlink);
     let checkaddamount = await shortlink.add_amount_links(short_link);
@@ -39,16 +42,11 @@ server.route({
 });
 
 server.route({
-  method: 'GET',
-  path: '/admin',
-  handler: (request, h) => {
-    // redirect to page admin
-  }
-});
-
-server.route({
   method: 'POST',
   path: '/api/login',
+  options: {
+    cors : true
+  },
   handler: async (request, h) => {
     let username = request.payload.username;
     let password = request.payload.password;
@@ -70,6 +68,9 @@ server.route({
 server.route({
   method: 'GET',
   path: '/api/getstatlinks',
+  options: {
+    cors : true
+  },
   handler: async (request, h) => {
     let statlink = shortlink.get_stat_links();
     return statlink;
@@ -79,6 +80,9 @@ server.route({
 server.route({
   method: 'POST',
   path: '/api/add',
+  options: {
+    cors : true
+  },
   handler: async (request, h) => {
     let reallink = request.payload.link;
     let shortlink_gen = shortlink.gen_short_links();

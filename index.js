@@ -17,7 +17,7 @@ const server = Hapi.server({
 
 server.route({
   method: 'GET',
-  path: '/{shortlink}',
+  path: '/api/get/{shortlink}',
   options: {
     cors : true
   },
@@ -27,14 +27,10 @@ server.route({
     if(checkaddamount == 1){
       let data = await shortlink.get_links(short_link);
       let url = data[0].reallink;
-      let checkhttp = url.split("/");
-      let redirecturl = "";
-      if(checkhttp.includes('http:') || checkhttp.includes('https:')){
-        redirecturl = url;
-      } else {
-        redirecturl = "http://" + url;
+      let json = {
+        reallink: url
       }
-      return h.redirect(redirecturl);
+      return h.response(json);
     } else {
       return boom.notFound('Link Not Found');
     }
@@ -88,7 +84,7 @@ server.route({
     let shortlink_gen = shortlink.gen_short_links();
     await shortlink.add_links(shortlink_gen, reallink);
     let json = {
-      shortlink : url + '/' + shortlink_gen
+      shortlink : shortlink_gen
     };
     return h.response(json);
   }

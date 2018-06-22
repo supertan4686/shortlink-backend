@@ -8,7 +8,8 @@
 npm install
 node index.js หรือ nodemon index.js
 
-หลังจากนั้นจะสามารถทดลองใช้ทดสอบ API ของระบบนี้ได้ ตามนี้
+รายการ API ที่ใช้ใน project เว็บย่อลิงค์มีดังนี้
+
 1. api การเอาลิงค์จริงจากลิงค์ย่อ
 GET | http://localhost:3000/api/get/{shortlink} ; shortlink เช่น kMbH0
 ผลลัพธ์ (response)

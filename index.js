@@ -46,18 +46,20 @@ server.route({
   handler: async (request, h) => {
     let username = request.payload.username;
     let password = request.payload.password;
-
     let checkid = await admin.login(username, password);
+    let json = {};
     if (typeof checkid != "undefined" && checkid != null && checkid.length != null && checkid.length > 0){
-      let json = {
-        id : checkid[0].id,
-        username : username
+      json = {
+        message: 'success'
       };
-      return h.response(json);
+      
     }
     else {
-      return boom.notFound('User Not Found');
+      json = {
+        message: 'fail'
+      };
     }
+    return h.response(json);
   }
 });
 

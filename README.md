@@ -26,7 +26,7 @@ POST | http://localhost:3000/api/login
 }
 ผลลัพธ์ (response)
 {
-  reallink: 'facebook.com'
+  message: 'success'
 }
 
 3. api ดูข้อมูลถิติการกดลิงค์ย่อ
@@ -57,11 +57,11 @@ GET | http://localhost:3000/api/getstatlinks
 POST | http://localhost:3000/api/add
 เวลาส่ง (request)
 {
-  reallink: 'facebook.com'
+  link: 'facebook.com'
 }
 ผลลัพธ์ (response)
 {
-  reallink: 'kMbH0'
+  shortlink: 'kMbH0'
 }
 
 
